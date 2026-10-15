@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Open the Vital Source sandbox.
+#
+#   learn-linux            enter the sandbox (your files stay between sessions)
+#   learn-linux --reset    throw the sandbox away and start fresh (progress is kept)
+#   learn-linux --rebuild  rebuild the image, then start fresh (progress is kept)
+set -euo pipefail
+
+IMAGE=anarchygames/learn-linux:dev
+NAME=learn-linux
+PROGRESS=learn-linux-progress
+ROOT=$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)
+
+build() {
+    docker build -f "$ROOT/sandbox/Dockerfile" -t "$IMAGE" "$ROOT"
+}
+
+case "${1:-}" in
+    --reset)
+        docker rm -f "$NAME" >/dev/null 2>&1 || true
+        ;;
+    --rebuild)
+        build
+        docker rm -f "$NAME" >/dev/null 2>&1 || true
+        ;;
+    "") ;;
+    *)
+        sed -n '2,7p' "$0" | sed 's/^# \{0,1\}//'
+        exit 1
+        ;;
+esac
+
+docker image inspect "$IMAGE" >/dev/null 2>&1 || build
+
+if docker container inspect "$NAME" >/dev/null 2>&1; then
+    exec docker start --attach --interactive "$NAME"
+fi
+
+exec docker run -it --name "$NAME" --hostname sandbox \
+    -v "$PROGRESS:/var/lib/drill" "$IMAGE"

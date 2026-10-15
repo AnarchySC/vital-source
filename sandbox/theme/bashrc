@@ -1,0 +1,38 @@
+
+# ── Vital Source sandbox (AnarchyGames) ────────────────────────────────────────
+# Palette from anarchygames.org: orange E85D04, amber FAA307, cyan 00d4ff,
+# green 3fb950, muted 6a7080.
+
+PS1='\[\e[38;2;232;93;4m\]\u\[\e[38;2;106;112;128m\]@\[\e[38;2;250;163;7m\]sandbox\[\e[38;2;106;112;128m\]:\[\e[38;2;0;212;255m\]\w\[\e[0m\]\$ '
+
+eval "$(dircolors -b /etc/learn-linux/dircolors)"
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+export GREP_COLORS='mt=01;38;2;250;163;7:fn=38;2;0;212;255:ln=38;2;63;185;80:se=38;2;106;112;128'
+
+# Colored man pages (less termcap): bold = amber, underline = cyan.
+export LESS_TERMCAP_md=$'\e[1;38;2;250;163;7m'
+export LESS_TERMCAP_us=$'\e[4;38;2;0;212;255m'
+export LESS_TERMCAP_so=$'\e[38;2;5;8;14;48;2;232;93;4m'
+export LESS_TERMCAP_me=$'\e[0m' LESS_TERMCAP_ue=$'\e[0m' LESS_TERMCAP_se=$'\e[0m'
+export GROFF_NO_SGR=1
+export MANPAGER='less -R'
+
+# drill can move you to an exercise's starting folder; a program can't change its
+# parent shell's directory, so this wrapper does it after drill exits.
+drill() {
+    command drill "$@"
+    local rc=$?
+    local f="/tmp/drill-cd-$UID"
+    if [ -f "$f" ]; then
+        cd "$(cat "$f")" || true
+        rm -f "$f"
+    fi
+    return $rc
+}
+
+if [ -z "$LEARN_LINUX_MOTD_SHOWN" ]; then
+    export LEARN_LINUX_MOTD_SHOWN=1
+    printf '%b' "$(< /etc/learn-linux/motd)"
+    echo
+fi

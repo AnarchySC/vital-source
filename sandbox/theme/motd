@@ -1,0 +1,11 @@
+
+  \e[38;2;232;93;4m▌\e[0m \e[1;38;2;200;204;212mANARCHY\e[38;2;232;93;4mGAMES\e[0m \e[38;2;20;28;46m──────────────────────────────────────\e[0m
+  \e[38;2;232;93;4m▌\e[0m \e[38;2;0;212;255mVITAL SOURCE\e[0m \e[38;2;106;112;128m// learn linux in the terminal\e[0m
+
+    \e[38;2;250;163;7mdrill list\e[0m      \e[38;2;106;112;128msee the lessons\e[0m
+    \e[38;2;250;163;7mdrill start 0\e[0m   \e[38;2;106;112;128mbegin with lesson zero: help yourself\e[0m
+    \e[38;2;250;163;7mdrill\e[0m           \e[38;2;106;112;128mshow the task you're on\e[0m
+
+  \e[38;2;106;112;128mNothing in here can touch your real machine. Break things.\e[0m
+  \e[38;2;106;112;128msudo password:\e[0m \e[38;2;200;204;212mlearner\e[0m
+
